@@ -1,14 +1,16 @@
-<table class="table table-striped table-condensed table-hover table-bordered">
-  <thead>
-    <th>FIS Code</th>
-    <th>FIS pts</th>
-    <th>Jump1</th>
-    <th>Jump2</th>
-  </thead>
-  <tr *ngFor="let item of results">
-    <td>{{ item.FISCode }}</td>
-    <td>{{ item.FISPoints }}</td>
-    <td>{{ item.Jump1 }}</td>
-    <td>{{ item.Jump2 }}</td>
-  </tr>
-</table>
+<div *ngIf="results">
+  <table class="table table-striped table-condensed table-hover table-bordered">
+    <thead>
+      <th>FIS Code</th>
+      <th>FIS pts</th>
+      <th>Jump1</th>
+      <th>Jump2</th>
+    </thead>
+    <tr *ngFor="let item of results">
+      <td>{{ item.FISCode }}</td>
+      <td>{{ item.FISPoints }}</td>
+      <td>{{ item.Jump1 }}</td>
+      <td>{{ item.Jump2 }}</td>
+    </tr>
+  </table>
+</div>
