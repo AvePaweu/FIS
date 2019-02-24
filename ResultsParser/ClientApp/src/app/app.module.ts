@@ -13,6 +13,8 @@ import { AppService } from './app.service';
 import { ParserComponent } from './parser/parser.component';
 import { TwoRoundsResultsComponent } from './two-rounds-results/two-rounds-results.component';
 import { OneRoundResultsComponent } from './one-round-results/one-round-results.component';
+import { TwoRoundsTeamResultsComponent } from './two-rounds-team-results/two-rounds-team-results.component';
+import { OneRoundTeamResultsComponent } from './one-round-team-results/one-round-team-results.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { OneRoundResultsComponent } from './one-round-results/one-round-results.
     FetchDataComponent,
     ParserComponent,
     TwoRoundsResultsComponent,
-    OneRoundResultsComponent
+    OneRoundResultsComponent,
+    TwoRoundsTeamResultsComponent,
+    OneRoundTeamResultsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
