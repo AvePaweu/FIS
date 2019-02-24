@@ -1,0 +1,14 @@
+<input class="w3-input" type="text" ng-model="filtr.surname" placeholder="Surname..." />
+<at-pagination at-list="jumpers" at-config="config" class="w3-pagination"></at-pagination>
+<table class="w3-table w3-bordered w3-striped w3-hoverable" at-table at-list="jumpers | filter: filtr" at-paginated at-config="config">
+	<thead></thead>
+	<tbody>
+		<tr>
+			<td at-attribute="name" at-title="Jumper">
+				<a href="#/jumper/{{ item.FIScode }}">{{ item.name }} {{item.surname | uppercase }}</a>
+			</td>
+			<td at-implicit at-attribute="nation" at-title="Nation" at-sortable></td>
+			<td at-attribute="dateOfBirth" at-title="DoB" at-sortable>{{ item.dateOfBirth | date: 'dd.MM.yyyy' }}</td>
+		</tr>
+	</tbody>
+</table>

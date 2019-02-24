@@ -1,0 +1,21 @@
+<p><label><strong>Competition name</strong></label><br />
+<span>{{ competition.info[0].name }}</span></p>
+<p><label><strong>Location</strong></label><br />
+<span>{{ competition.info[0].location }} HS{{ competition.info[0].HS }}</span></p>
+<p><label><strong>Date</strong></label><br />
+<span>{{ competition.info[0].date | date: 'dd.MM.yyyy' }}</span></p>
+
+<table class="w3-table w3-hoverable w3-striped w3-bordered" at-table at-list="competition.results">
+	<thead></thead>
+	<tbody>
+		<tr>
+			<td at-title="Place">{{ $index + 1 }}</td>
+			<td at-implicit at-attribute="FIScode" at-title="ID" at-sortable></td>
+			<td at-title="Jumper" at-sortable><a href="#/jumper/{{ item.FIScode }}">{{ item.name }} {{ item.surname | uppercase }}</a></td>
+			<td at-implicit at-attribute="nation" at-title="Nation" at-sortable></td>
+			<td at-attribute="sum" at-title="Sum" at-sortable>{{ item.sum | number: 1 }}</td>
+			<td at-attribute="FISpoints" class="right" at-title="FIS points" at-sortable>{{ item.FISpoints | number: 2 }}</td>
+			<td at-attribute="FIS1" class="right" at-title="FIS 1" at-sortable>{{ item.FIS1 }}</td>
+		</tr>
+	</tbody>
+</table>

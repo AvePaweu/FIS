@@ -1,0 +1,21 @@
+SELECT r.jumper, j.name, j.surname, r.sum, r.fispoints FROM results r left join jumpers j on r.jumper = j.fiscode where r.competitionid = 19
+
+SELECT r.jumper, j.name, j.surname, count(r.fispoints), avg(r.fispoints) as FIS_coeff FROM results r left join jumpers j on r.jumper = j.fiscode group by r.jumper
+
+SELECT r.jumper, count(r.fispoints) as starts, avg(r.fispoints) as FIS_coef,
+(SELECT CASE COUNT(r.fispoints)
+WHEN 1 THEN AVG(r.fispoints) * 1.4
+WHEN 2 THEN AVG(r.fispoints) * 1.3
+WHEN 3 THEN AVG(r.fispoints) * 1.2
+WHEN 4 THEN AVG(r.fispoints) * 1.1
+ELSE AVG(r.fispoints)
+END) AS kejs
+FROM results r group by r.jumper
+
+..:: WSZYSTKO RAZEM + WYBRANY OKRES CZASU ::..
+
+SELECT r.jumper, j.name, j.surname, j.nation, count(r.fispoints) as starts, avg(r.fispoints) as FIS_coef,
+(SELECT CASE WHEN COUNT(r.fispoints) < 5 THEN ROUND(AVG(r.fispoints) * (15-COUNT(r.fispoints)) / 10, 2)
+ELSE ROUND((SELECT AVG(fispoints) FROM (SELECT * FROM results join competitions on results.competitionid = competitions.id where jumper = r.jumper and competitions.date between date("2016-01-17","-1 year") and "2016-01-17" order by fispoints limit 5)), 2)
+END) AS Punkty_FIS
+FROM results r join jumpers j on r.jumper=j.fiscode join competitions c on r.competitionid=c.id where c.date between date("2016-01-17","-1 year") and "2016-01-17" group by r.jumper order by Punkty_FIS

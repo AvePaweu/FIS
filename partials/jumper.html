@@ -1,0 +1,23 @@
+<p><label><strong>Jumper</strong></label><br />
+<span>{{ jumper.jumper[0].name }} {{ jumper.jumper[0].surname }}</span></p>
+<p><label><strong>Nation</strong></label><br />
+<span>{{ jumper.jumper[0].nation }}</span></p>
+<p><label><strong>Date of birth</strong></label><br />
+<span>{{ jumper.jumper[0].dateOfBirth | date: 'dd.MM.yyyy' }}</span></p>
+
+<at-pagination at-list="jumper.results" at-config="config" class="w3-pagination"></at-pagination>
+<table class="w3-table w3-hoverable w3-striped w3-bordered" at-table at-list="jumper.results" at-paginated at-config="config">
+	<thead></thead>
+	<tbody>
+		<tr>
+			<td at-attribute="date" at-title="Date" at-sortable>{{ item.date | date: 'dd.MM.yyyy' }}</td>
+			<td at-attribute="location" at-title="Location" at-sortable>
+				<a href="#/competition/{{ item.ID }}">{{ item.location }}</a>
+			</td>
+			<td at-implicit at-attribute="name" at-title="Competition" at-sortable></td>
+			<td at-attribute="sum" at-title="Sum of points" at-sortable>{{ item.sum | number: 1 }}</td>
+			<td at-attribute="FISpoints" class="right" at-title="FIS points" at-sortable>{{ item.FISpoints | number: 2 }}</td>
+			<td at-attribute="ranking" at-title="Ranking after<br />competition" at-sortable>{{ item.ranking | number: 2 }}</td>
+		</tr>
+	</tbody>
+</table>

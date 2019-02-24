@@ -1,0 +1,17 @@
+<h1>Competitions</h1>
+
+<at-pagination at-list="competitions" at-config="config" class="w3-pagination"></at-pagination>
+<table class="w3-table w3-hoverable w3-striped w3-bordered" at-table at-list="competitions" at-config="config" at-paginated>
+	<thead></thead>
+	<tbody>
+		<tr>
+			<td at-implicit at-attribute="name" at-title="Name" at-sortable></td>
+			<td at-attribute="location" at-title="Location" at-sortable>
+				<a href="#/competition/{{ item.id }}">{{ item.location }}</a>
+			</td>
+			<td at-attribute="date" at-title="Date" at-sortable>{{ item.date | date: 'dd.MM.yyyy' }}</td>
+			<td at-implicit at-attribute="HS" at-title="Hill size" at-sortable></td>
+			<td at-attribute="penalty" at-title="Penalty points" at-sortable>{{ item.penalty | number: 2 }}</td>
+		</tr>
+	</tbody>
+</table>

@@ -1,0 +1,49 @@
+<div class="w3-container">
+	<input class="w3-input w3-col l2" type="text" ng-model="date" data-date-format="yyyy-mm-dd" id="dp1" ng-click="CalendarClick()" />
+	<button type="button" class="w3-btn w3-sebn w3-round-large" ng-click="GetRanking(date)">Go</button>
+</div>
+<div class="w3-container w3-col l7">
+	<input type="text" class="w3-input" ng-model="search" placeholder="filter by nation..." />
+	<at-pagination at-list="ranking" at-config="config" class="w3-pagination"></at-pagination>
+	<table class="w3-table w3-striped w3-hoverable w3-bordered w3-card-24" at-table at-list="ranking | filter: {nation: search}" at-paginated at-config="config">
+		<thead></thead>
+		<tbody>
+			<tr>
+				<td at-title="Place">{{ ranking.indexOf(item) + 1 }}</td>
+				<td at-implicit at-attribute="FIScode" at-title="ID" at-sortable></td>
+				<td at-attribute="name" at-title="Jumper" at-sortable>
+					<a href="#/jumper/{{ item.FIScode }}">{{ item.name }} {{ item.surname | uppercase }}</a>
+				</td>
+				<td at-implicit at-attribute="nation" at-title="Nation" at-sortable></td>
+				<td at-implicit at-attribute="starts" at-title="Starts" at-sortable></td>
+				<td at-attribute="FISpoints" at-title="FIS points" at-sortable>{{ item.FISpoints | number: 2 }}</td>
+				<td at-attribute="last" at-title="Last start" at-sortable>{{ item.last | date: 'dd.MM.yyyy' }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="w3-container w3-col l5">
+	<h3>Nation quotas</h3>
+	<table class="w3-table w3-striped w3-hoverable w3-bordered w3-card-24" at-table at-list="quotas">
+		<thead></thead>
+		<tbody>
+			<tr>
+				<td at-title="Place">{{ $index + 1 }}</td>
+				<td at-implicit at-attribute="nation" at-title="Nation" at-sortable></td>
+				<td at-implicit at-attribute="WC" at-title="World Cup" at-sortable></td>
+				<td at-implicit at-attribute="COC" at-title="Continental Cup" at-sortable></td>
+				<td at-implicit at-attribute="FC" at-title="FIS Cup" at-sortable></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td>Sum</td>
+				<td>{{ quotas.length }}</td>
+				<td>{{ quotas.sum("WC") }}</td>
+				<td>{{ quotas.sum("COC") }}</td>
+				<td>{{ quotas.sum("FC") }}</td>
+			</tr>		
+		</tfoot>
+	</table>
+</div>

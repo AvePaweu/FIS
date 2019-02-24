@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <title>FIS Ski Jumping results parser</title>
+</head>
+
+<body>
+  <div id="hidden-div">
+
+  </div>
+</body>
+<script>
+  $(document).ready(function () {
+    $.get('https://www.fis-ski.com/DB/general/results.html?sectorcode=JP&raceid=5299', function(data) {
+      $('#hidden-div').html(data);
+    })
+  })
+</script>
+
+</html>

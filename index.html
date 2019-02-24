@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ski Jumping FIS points</title>
+<link href="w3.css" type="text/css" rel="stylesheet" />
+<link href="foundation-datepicker.min.css" type="text/css" rel="stylesheet" />
+
+<script type="text/javascript" src="Scripts/jquery.min.js"></script>
+<script type="text/javascript" src="Scripts/foundation-datepicker.min.js"></script>
+<script type="text/javascript" src="Scripts/sugar-1.4.1-custom.min.js"></script>
+<script type="text/javascript" src="Scripts/moment.js"></script>
+<script type="text/javascript" src="Scripts/angular.js"></script>
+<script type="text/javascript" src="Scripts/angular-resource.js"></script>
+<script type="text/javascript" src="Scripts/angular-route.js"></script>
+<script type="text/javascript" src="Scripts/angular-table.js"></script>
+<script type="text/javascript" src="Scripts/app.js"></script>
+
+<style>
+.w3-fixed { position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 9999; }
+.w3-sebn { background-color: #004ea0 !important; color: #fff !important; }
+.w3-text-sebn { color: #004ea0 !important; }
+</style>
+
+</head>
+<body ng-app="app">
+<header class="w3-topnav w3-sebn w3-top">
+	<a href="#/start" class="w3-btn w3-sebn w3-xlarge">FIS points ranking</a></li>
+	<a href="#/jumpers" class="w3-btn w3-sebn">Jumpers</a></li>
+	<a href="#/competitions" class="w3-btn w3-sebn">Competitions</a>
+</header>
+
+<div class="w3-container" style="padding-top: 70px; padding-bottom: 20px" ng-view></div>
+
+<footer class="w3-container w3-sebn">
+	<span class="w3-tiny">Bla bla bla</span>
+</footer>
+
+</body>
+</html>
