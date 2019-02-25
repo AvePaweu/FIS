@@ -41,9 +41,46 @@ namespace ResultsParser.Controllers
       throw new NotImplementedException();
     }
 
-    private Task<List<Result>> ParseDataForTeam2RoundsCompetition(IEnumerable<HtmlNode> items, DateTime competitionDate)
+    private async Task<List<Result>> ParseDataForTeam2RoundsCompetition(IEnumerable<HtmlNode> items, DateTime competitionDate)
     {
-      throw new NotImplementedException();
+      HttpClient client = new HttpClient();
+            var response = new List<Result>();
+            string currentNation = "";
+            foreach (var item in items)
+            {
+                if (item.HasClass("table-row_theme_main"))
+                {
+                    currentNation = item.ChildNodes["div"].ChildNodes["div"].Elements("div").ToArray()[2]?.InnerText.Trim();
+                }
+                else if (item.HasClass("table-row_theme_additional"))
+                {
+                    var dataRow = item.ChildNodes["div"].ChildNodes["div"].Elements("div").ToList();
+                    var result = new Result
+                    {
+                        Nation = currentNation,
+                        Jumper = dataRow[2]?.InnerText.Trim() ?? "gówno",
+                        FISCode = dataRow[1]?.InnerText ?? "gówno",
+                        Jump1 = dataRow[6]?.InnerText.Replace(".", ",") ?? "0",
+                        Jump2 = dataRow[8]?.InnerText.Replace(".", ",") ?? "0",
+                    };
+                    result.Sum = Convert.ToDouble(result.Jump1) + Convert.ToDouble(result.Jump2);
+
+                    response.Add(result);
+                }
+                else continue;
+            }
+            response = response.OrderByDescending(a => a.Sum).ToList();
+            foreach (var item in response)
+            {
+                item.Place = Convert.ToByte(response.Select(a => a.Sum).ToList().IndexOf(item.Sum) + 1);
+                if (item.Place <= 5)
+                {
+                    string fisPoints = await client.GetStringAsync($"http://localhost:88/FIS/api.php/jumper/{item.FISCode}/{competitionDate.ToString("yyyy-MM-dd")}");
+                    item.FISPoints = fisPoints.Replace(".", ",");
+                }
+            }
+
+            return response;
     }
 
     private async Task<List<Result>> ParseDataFor1RoundCompetition(IEnumerable<HtmlNode> items, DateTime competitionDate)
@@ -52,14 +89,14 @@ namespace ResultsParser.Controllers
       var response = new List<Result>();
       foreach (var item in items)
       {
-        var costam = item.ChildNodes["div"].ChildNodes["div"].Elements("div").ToList();
+        var dataRow = item.ChildNodes["div"].ChildNodes["div"].Elements("div").ToList();
         var result = new Result
         {
-          Place = Convert.ToByte(costam[0]?.InnerText ?? "0"),
-          Jumper = costam[3]?.InnerText.Trim() ?? "gówno",
-          FISCode = costam[2]?.InnerText ?? "gówno",
-          Jump1 = costam[7]?.InnerText.Replace(".", ",") ?? "gówno",
-          Sum = costam[8]?.InnerText.Replace(".", ",") ?? "gówno"
+          Place = Convert.ToByte(dataRow[0]?.InnerText ?? "0"),
+          Jumper = dataRow[3]?.InnerText.Trim() ?? "gówno",
+          FISCode = dataRow[2]?.InnerText ?? "gówno",
+          Jump1 = dataRow[7]?.InnerText.Replace(".", ",") ?? "gówno",
+          Sum = Convert.ToDouble(dataRow[8]?.InnerText.Replace(".", ",") ?? "0")
         };
         if (result.Place <= 5)
         {
@@ -78,15 +115,15 @@ namespace ResultsParser.Controllers
       var response = new List<Result>();
       foreach (var item in items)
       {
-        var costam = item.ChildNodes["div"].ChildNodes["div"].Elements("div").ToList();
+        var dataRow = item.ChildNodes["div"].ChildNodes["div"].Elements("div").ToList();
         var result = new Result
         {
-          Place = Convert.ToByte(costam[0]?.InnerText ?? "0"),
-          Jumper = costam[3]?.InnerText.Trim() ?? "gówno",
-          FISCode = costam[2]?.InnerText ?? "gówno",
-          Jump1 = costam[7]?.InnerText.Replace(".", ",") ?? "gówno",
-          Jump2 = costam[9]?.InnerText.Replace(".", ",") ?? "gówno",
-          Sum = costam[10]?.InnerText.Replace(".", ",") ?? "gówno"
+          Place = Convert.ToByte(dataRow[0]?.InnerText ?? "0"),
+          Jumper = dataRow[3]?.InnerText.Trim() ?? "gówno",
+          FISCode = dataRow[2]?.InnerText ?? "gówno",
+          Jump1 = dataRow[7]?.InnerText.Replace(".", ",") ?? "gówno",
+          Jump2 = dataRow[9]?.InnerText.Replace(".", ",") ?? "gówno",
+          Sum = Convert.ToDouble(dataRow[10]?.InnerText.Replace(".", ",") ?? "0")
         };
         if (result.Place <= 5)
         {
@@ -107,7 +144,7 @@ namespace ResultsParser.Controllers
       public string FISCode { get; set; }
       public string Jump1 { get; set; }
       public string Jump2 { get; set; }
-      public string Sum { get; set; }
+      public double Sum { get; set; }
       public string FISPoints { get; set; }
 
       public override string ToString() => $"{Jumper} ({FISCode}) {Jump1} {Jump2} {Sum}";
