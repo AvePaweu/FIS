@@ -13,50 +13,8 @@
 </body>
 <script>
   const isUpperCase = char => char === char.toUpperCase();
-  const translit = {
-    'a': 'а',
-    'b': 'б',
-    'v': 'в',
-    'g': 'г',
-    'd': 'д',
-    'e': 'е',
-    'jo': 'ё',
-    'yo': 'ё',
-    'ö': 'ё',
-    'zh': 'ж',
-    'z': 'з',
-    'i': 'и',
-    'j': 'й',
-    'k': 'к',
-    'l': 'л',
-    'm': 'м',
-    'n': 'н',
-    'o': 'о',
-    'p': 'п',
-    'r': 'р',
-    's': 'с',
-    't': 'т',
-    'u': 'у',
-    'f': 'ф',
-    'h': 'х',
-    'x': 'х',
-    'c': 'ц',
-    'ch': 'ч',
-    'sh': 'ш',
-    'sht': 'щ',
-    'w': 'щ',
-    '#': 'ъ',
-    'y': 'ы',
-    '\'': 'ь',
-    'je,ä': 'э',
-    'ä': 'э',
-    'ju': 'ю',
-    'yu': 'ю',
-    'ü': 'ю',
-    'ja': 'я',
-    'ya': 'я',
-    'q': 'я'
-  };
+  const translit = { 'a': 'а', 'b': 'б', 'v': 'в', 'g': 'г', 'd': 'д', 'e': 'е', 'jo': 'ё', 'yo': 'ё', 'ö': 'ё', 'zh': 'ж', 'z': 'з', 'i': 'и', 'j': 'й', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н', 'o': 'о', 'p': 'п', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у', 'f': 'ф', 'h': 'х', 'x': 'х', 'c': 'ц', 'ch': 'ч', 'sh': 'ш', 'sht': 'щ', 'y': 'ъ', 'y': 'ы', '\'': 'ь', 'je': 'э', 'ä': 'э', 'ju': 'ю', 'yu': 'ю', 'ü': 'ю', 'ja': 'я', 'ya': 'я', 'q': 'я' };
+  const longestKey = o => Object.keys(o).sort((a, b) => b.length - a.length);
 
   function transliterate(string) {
     let word = '';
@@ -73,38 +31,33 @@
   }
 
   function transliterate2(string) {
-    console.log(performance.now());
-    let word = '', i = 0, step = 0;
-    while (i < string.length && step < 1000) {
-      let j = 3;
+    let word = '', i = 0;
+    while (i < string.length) {
+      let j = longestKey(translit)[0].length;
       while (j > 0) {
         let original = string.substring(i, i + j);
         let fragment = original.toLowerCase();
         let translated = translit[fragment];
         if (translated) {
           if (original[0] === original[0].toUpperCase()) {
-            console.log(original, translit[original[0].toLowerCase()].toUpperCase());
             translated = translit[original[0].toLowerCase()].toUpperCase() + translated.substring(1);
-            // translated[0] = translit[original[0].toLowerCase()].toUpperCase();
-            console.log(translated);
           }
           word += translated;
           i += j;
-          step++;
           break;
         }
-        else { j--; step++ }
-        if (j == 0) { word += string[i]; i++; }
+        else j--;
+        if (j == 0) {
+          word += string[i]; 
+          i++;
+        }
       }
     }
-    console.log(step);
-    console.log(performance.now());
     return word;
   }
 
-  console.log(transliterate("Hello World!"));
-  console.log(transliterate("Privet Mir!"));
-  console.log(transliterate2("Pavel Hatlas obshto"));
+  console.log(transliterate("Hristina Decheva"));
+  console.log(transliterate2("Hristina Decheva"));
 </script>
 
 </html>
